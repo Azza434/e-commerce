@@ -24,8 +24,8 @@ def login(request):
     if request.method == 'POST':
         user_form = UserLoginForm(request.POST)
         if user_form.is_valid():
-            user = auth.authenticate(request.POST.get('username_or_email', False),
-                                     password=request.POST.get('password'))
+            user = auth.authenticate(request.POST['username_or_email'],
+                                     password=request.POST['password'])
 
             if user:
                 auth.login(request, user)
@@ -43,6 +43,7 @@ def login(request):
 
     args = {'user_form': user_form, 'next': request.GET.get('next', '')}
     return render(request, 'login.html', args)
+
 
 @login_required
 def profile(request):
